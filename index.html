@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zapretka - Мессенджер</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Секция входа/регистрации -->
+    <div id="auth-section">
+        <div class="auth-container">
+            <div class="form-wrapper glassmorphism">
+                <div class="form-header">
+                    <span class="app-name">Zapretka</span>
+                </div>
+
+                <div class="toggle-buttons">
+                    <button class="toggle-btn active" data-toggle="login">Вход</button>
+                    <button class="toggle-btn" data-toggle="register">Регистрация</button>
+                </div>
+
+                <form id="login-form" class="form">
+                    <div class="input-group">
+                        <input type="text" id="login-username" name="username" required placeholder=" ">
+                        <label for="login-username">Никнейм</label>
+                        <span class="input-border"></span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="login-password" name="password" required placeholder=" ">
+                        <label for="login-password">Пароль</label>
+                        <span class="input-border"></span>
+                    </div>
+                    <div class="options">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="remember-me">
+                            <label for="remember-me">Запомнить меня</label>
+                        </div>
+                        <p class="forgot-password">Забыли пароль?</p>
+                    </div>
+                    <button type="submit" class="submit-btn login-submit">Войти</button>
+                </form>
+
+                <form id="register-form" class="form hidden">
+                    <div class="input-group">
+                        <input type="text" id="register-username" name="username" required placeholder=" ">
+                        <label for="register-username">Никнейм</label>
+                        <span class="input-border"></span>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="register-display-name" name="display-name" required placeholder=" ">
+                        <label for="register-display-name">Отображаемое имя</label>
+                        <span class="input-border"></span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="register-password" name="password" required placeholder=" ">
+                        <label for="register-password">Пароль</label>
+                        <span class="input-border"></span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="register-confirm-password" name="confirm-password" required placeholder=" ">
+                        <label for="register-confirm-password">Подтвердите пароль</label>
+                        <span class="input-border"></span>
+                    </div>
+                    <button type="submit" class="submit-btn register-submit">Зарегистрироваться</button>
+                    <button type="button" id="skip-auth-btn" class="submit-btn skip-btn">Пропустить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основной интерфейс мессенджера (скрыт по умолчанию) -->
+    <div id="app-main-section" class="app-container hidden">
+        <!-- Левая панель: Поиск, Список чатов -->
+        <div class="sidebar">
+            <!-- Sidebar Header: Поиск и кнопка "Добавить друга" -->
+            <div class="sidebar-header">
+                <!-- Кнопка меню (три линии) УДАЛЕНА -->
+                <div class="search-container">
+                    <input type="text" id="chat-search-bar" class="search-bar" placeholder="Поиск чатов...">
+                    <!-- Кнопка "Добавить друга" -->
+                    <button class="add-friend-btn" id="add-friend-btn"><i class="fas fa-user-plus"></i></button>
+                </div>
+            </div>
+            <div id="chat-list" class="chat-list">
+                <!-- Список чатов будет генерироваться динамически -->
+            </div>
+            <!-- Информация о текущем пользователе -->
+            <div class="sidebar-footer">
+                <div id="current-user-avatar" class="avatar user-profile-avatar">ME</div>
+                <div class="user-details">
+                    <span id="current-user-display-name">Ваше имя</span>
+                </div>
+                <button id="profile-settings-btn" class="profile-settings-btn"><i class="fas fa-cog"></i></button>
+            </div>
+        </div>
+
+        <!-- Центральная панель: Сообщения чата -->
+        <div class="chat-window">
+            <div class="chat-header">
+                <div id="chat-header-avatar" class="avatar-large purple">ME</div>
+                <div class="user-info">
+                    <div id="chat-header-name" class="user-name">Имя пользователя</div>
+                    <div id="chat-header-status" class="user-status"></div>
+                </div>
+                <div class="chat-controls">
+                    <!-- Кнопка "три точки" -->
+                    <button class="chat-options-btn"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+            </div>
+            <div id="message-area" class="message-area">
+                <!-- Сообщения будут загружаться сюда -->
+            </div>
+            <div class="message-input-area">
+                <input type="file" id="message-file-upload" accept="image/*,audio/*,video/*" class="hidden">
+                <label for="message-file-upload" class="attach-file-label"><i class="fas fa-paperclip"></i></label>
+                <input type="text" class="message-input" placeholder="Напишите сообщение...">
+                <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно профиля -->
+    <div id="profile-modal" class="modal hidden">
+        <div class="modal-content glassmorphism">
+            <div class="modal-header">
+                <h2>Профиль</h2>
+                <span class="close-modal-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="profile-avatar-container">
+                    <div id="modal-avatar" class="avatar large-avatar">ME</div>
+                    <label for="avatar-upload" class="avatar-upload-button">
+                        <i class="fas fa-camera"></i>
+                    </label>
+                    <input type="file" id="avatar-upload" accept="image/*" class="hidden">
+                </div>
+                <div class="input-group profile-input">
+                    <input type="text" id="modal-display-name" placeholder=" ">
+                    <label for="modal-display-name">Отображаемое имя</label>
+                    <span class="input-border"></span>
+                </div>
+                <div class="profile-info">
+                    <p><strong>Никнейм:</strong> <span id="modal-username"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-profile-btn" class="submit-btn">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления друга -->
+    <div id="add-friend-modal" class="modal hidden">
+        <div class="modal-content glassmorphism">
+            <div class="modal-header">
+                <h2>Добавить друга</h2>
+                <span class="close-modal-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="input-group add-friend-input">
+                    <input type="text" id="friend-nickname" placeholder=" ">
+                    <label for="friend-nickname">Ник друга</label>
+                    <span class="input-border"></span>
+                </div>
+                <!-- Список заявок в друзья (будет заполняться динамически) -->
+                <div class="pending-friends-section">
+                    <h4>Заявки в друзья:</h4>
+                    <ul id="pending-friends-list">
+                        <!-- Пример заявки (для демонстрации) -->
+                        <!-- <li class="pending-friend-item">
+                            <span>ПользовательX</span>
+                            <button class="accept-friend-btn">Принять</button>
+                            <button class="reject-friend-btn">Отклонить</button>
+                        </li> -->
+                    </ul>
+                </div>
+                <p id="friend-status-message" class="status-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button id="add-friend-submit-btn" class="submit-btn">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Контекстное меню для кнопки "три точки" -->
+    <div id="chat-options-menu" class="context-menu hidden">
+        <ul>
+            <li id="delete-friend-option">Удалить друга</li>
+            <!-- Добавьте другие опции, если нужно -->
+        </ul>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
