@@ -1,47 +1,32 @@
-// backend/server.js
-
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
-// Загрузка переменных окружения из .env файла
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Используем порт из .env или 3000 по умолчанию
+const PORT = process.env.PORT || 3000;
 
-// --- Middleware ---
-// Разрешаем кросс-доменные запросы (важно для взаимодействия фронтенда и бэкенда)
 app.use(cors());
-
-// Парсим JSON тела запросов
 app.use(express.json());
 
-// --- Маршруты API ---
-// Здесь будут ваши API-эндпоинты (регистрация, вход, друзья, сообщения и т.д.)
-
-// Пример приветственного маршрута
-app.get('/', (req, res) => {
-    res.send('Backend is running!');
-});
-
-// Пример маршрута для регистрации (для демонстрации)
+// Маршрут регистрации
 app.post('/api/register', (req, res) => {
-    const { username, displayName, password } = req.body;
-    console.log(`Received registration data: username=${username}, displayName=${displayName}`);
-    // TODO: Реализовать логику регистрации (сохранение в БД, хеширование пароля и т.д.)
-    res.status(201).json({ message: 'User registration simulated successfully!' });
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return res.status(400).json({ message: 'Никнейм и пароль обязательны!' });
+    }
+    console.log(`Регистрация пользователя: ${username}`);
+    res.status(201).json({ message: `Пользователь ${username} успешно зарегистрирован!` });
 });
 
-// Пример маршрута для входа (для демонстрации)
+// Маршрут входа
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
-    console.log(`Received login data: username=${username}`);
-    // TODO: Реализовать логику входа (проверка данных в БД, генерация токена)
-    res.json({ message: 'User login simulated successfully!', token: 'dummy_token_123' });
+    console.log(`Вход пользователя: ${username}`);
+    res.json({ message: 'Вход успешен!', token: 'mock_token' });
 });
 
-// --- Запуск сервера ---
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
