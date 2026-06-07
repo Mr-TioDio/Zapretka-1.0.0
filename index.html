@@ -66,6 +66,7 @@
                         <span class="input-border"></span>
                     </div>
                     <button type="submit" class="submit-btn register-submit">Зарегистрироваться</button>
+                    <!-- Кнопка "Пропустить" теперь здесь -->
                     <button type="button" id="skip-auth-btn" class="submit-btn skip-btn">Пропустить</button>
                 </form>
             </div>
@@ -76,12 +77,9 @@
     <div id="app-main-section" class="app-container hidden">
         <!-- Левая панель: Поиск, Список чатов -->
         <div class="sidebar">
-            <!-- Sidebar Header: Поиск и кнопка "Добавить друга" -->
             <div class="sidebar-header">
-                <!-- Кнопка меню (три линии) УДАЛЕНА -->
                 <div class="search-container">
                     <input type="text" id="chat-search-bar" class="search-bar" placeholder="Поиск чатов...">
-                    <!-- Кнопка "Добавить друга" -->
                     <button class="add-friend-btn" id="add-friend-btn"><i class="fas fa-user-plus"></i></button>
                 </div>
             </div>
@@ -107,7 +105,6 @@
                     <div id="chat-header-status" class="user-status"></div>
                 </div>
                 <div class="chat-controls">
-                    <!-- Кнопка "три точки" -->
                     <button class="chat-options-btn"><i class="fas fa-ellipsis-v"></i></button>
                 </div>
             </div>
@@ -166,17 +163,9 @@
                     <label for="friend-nickname">Ник друга</label>
                     <span class="input-border"></span>
                 </div>
-                <!-- Список заявок в друзья (будет заполняться динамически) -->
                 <div class="pending-friends-section">
                     <h4>Заявки в друзья:</h4>
-                    <ul id="pending-friends-list">
-                        <!-- Пример заявки (для демонстрации) -->
-                        <!-- <li class="pending-friend-item">
-                            <span>ПользовательX</span>
-                            <button class="accept-friend-btn">Принять</button>
-                            <button class="reject-friend-btn">Отклонить</button>
-                        </li> -->
-                    </ul>
+                    <ul id="pending-friends-list"></ul>
                 </div>
                 <p id="friend-status-message" class="status-message"></p>
             </div>
@@ -190,7 +179,6 @@
     <div id="chat-options-menu" class="context-menu hidden">
         <ul>
             <li id="delete-friend-option">Удалить друга</li>
-            <!-- Добавьте другие опции, если нужно -->
         </ul>
     </div>
 
